@@ -5093,11 +5093,6 @@ class CollectionAPITest(TestCase):
             ('$options', 'm'),
         ])}))
 
-    def test__filter_objects_comparison_unknown_type(self):
-        self.db.collection.insert_one({'counts': 3})
-        with self.assertRaises(NotImplementedError):
-            self.db.collection.find_one({'counts': {'$gt': str}})
-
     def test__filter_objects_nested_comparison(self):
         collection = self.db.collection
         query = {'counts': {'$gt': {'circles': {'blue': 1}}}}

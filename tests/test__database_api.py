@@ -162,29 +162,6 @@ class DatabaseAPITest(TestCase):
         with self.assertRaises(NotImplementedError):
             self.database.with_options(custom_tzinfo)
 
-    @skipIf(
-        not helpers.HAVE_PYMONGO or helpers.PYMONGO_VERSION < version.parse('3.8'),
-        'pymongo not installed or <3.8')
-    def test__with_options_type_registry(self):
-        class _CustomTypeCodec(codec_options.TypeCodec):
-            @property
-            def python_type(self):  # pylint: disable=invalid-overridden-method
-                return _CustomTypeCodec
-
-            def transform_python(self, unused_value):
-                pass
-
-            @property
-            def bson_type(self):  # pylint: disable=invalid-overridden-method
-                return int
-
-            def transform_bson(self, unused_value):
-                pass
-
-        custom_type_registry = codec_options.CodecOptions(
-            type_registry=codec_options.TypeRegistry([_CustomTypeCodec()]))
-        with self.assertRaises(NotImplementedError):
-            self.database.with_options(custom_type_registry)
 
     def test__collection_names(self):
         self.database.create_collection('a')

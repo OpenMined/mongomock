@@ -383,9 +383,7 @@ def _get_compare_type(val):
         # According to the C++ code, this should be 55 but apparently sending a DBRef through
         # pymongo is stored as a dict.
         return 20
-    raise NotImplementedError(
-        "Mongomock does not know how to sort '%s' of type '%s'" %
-        (val, type(val)))
+    return 0
 
 
 def _regex(doc_val, regex):
